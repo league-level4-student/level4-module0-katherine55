@@ -16,6 +16,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 	private static final long serialVersionUID = 1L;
 	private int cellsPerRow;
 	private int cellSize;
+	int liveNeighbors;
 
 	private Timer timer;
 
@@ -45,10 +46,15 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 
 	public void randomizeCells() {
 		// 4. Iterate through each cell and randomly set each
-		// cell's isAlive memeber to true of false
+		// cell's isAlive member to true of false
 		for (int i = 0; i < myshells.length; i++) {
 			for (int j = 0; j < myshells[i].length; j++) {
-				myshells[i][j].isAlive = true;
+				int rand = new Random().nextInt(1);
+				if (rand == 0) {
+					myshells[i][j].isAlive = true;
+				} else {
+					myshells[i][j].isAlive = false;
+				}
 			}
 		}
 		repaint();
@@ -94,7 +100,13 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		// 7. iterate through cells and get their neighbors
 		for (int i = 0; i < myshells.length; i++) {
 			for (int j = 0; j < myshells[i].length; j++) {
-				myshells[i][j]
+				for(int k=-1; k<getX()+1; k++) {
+					for(int f =-1; f<getY()+1; k++) {
+						if(k==0 && f==0) {
+						myshells[i+k][j+f].isAlive
+						}
+					}	
+				}			
 			}
 		}
 		// 8. check if each cell should live or die
