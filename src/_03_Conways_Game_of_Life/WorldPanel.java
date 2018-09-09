@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JPanel;
@@ -100,13 +101,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		// 7. iterate through cells and get their neighbors
 		for (int i = 0; i < myshells.length; i++) {
 			for (int j = 0; j < myshells[i].length; j++) {
-				for(int k=-1; k<getX()+1; k++) {
-					for(int f =-1; f<getY()+1; k++) {
-						if(k==0 && f==0) {
-						myshells[i+k][j+f].isAlive
-						}
-					}	
-				}			
+				getLivingNeighbors(i, j);
 			}
 		}
 		// 8. check if each cell should live or die
@@ -118,6 +113,16 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 	// It returns an array list of the 8 or less neighbors of the
 	// cell identified by x and y
 	public int getLivingNeighbors(int x, int y) {
+		for (int k = x - 1; k <= x + 1; k++) {
+			for (int f = y - 1; f <= y + 1; k++) {
+				if(k<0 || k>x+1) {} //setting bounds for neighbors
+				
+				
+				
+				
+			}
+		}
+
 		return 0;
 	}
 
@@ -140,7 +145,15 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		int i = e.getX()/cellSize;
+		int j = e.getY()/cellSize;
 		// 10. Use e.getX() and e.getY() to determine
+		if(myshells[i][j].isAlive) {
+			myshells[i][j].isAlive = false;
+		}
+		else {
+			myshells[i][j].isAlive = true;
+		}
 		// which cell is clicked. Then toggle
 		// the isAlive variable for that cell.
 
