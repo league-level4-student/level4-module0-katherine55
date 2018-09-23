@@ -39,7 +39,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		// passing in the location.
 		for (int i = 0; i < myshells.length; i++) {
 			for (int j = 0; j < myshells[i].length; j++) {
-				myshells[i][j] = new Cell(i, j, cellSize);
+				myshells[i][j] = new Cell(i * cellSize, j * cellSize, cellSize);
 			}
 		}
 
@@ -50,7 +50,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		// cell's isAlive member to true of false
 		for (int i = 0; i < myshells.length; i++) {
 			for (int j = 0; j < myshells[i].length; j++) {
-				int rand = new Random().nextInt(1);
+				int rand = new Random().nextInt(2);
 				if (rand == 0) {
 					myshells[i][j].isAlive = true;
 				} else {
@@ -101,7 +101,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		// 7. iterate through cells and get their neighbors
 		for (int i = 0; i < myshells.length; i++) {
 			for (int j = 0; j < myshells[i].length; j++) {
-				getLivingNeighbors(i, j);
+				myshells[i][j].liveOrDie(getLivingNeighbors(i, j));
 			}
 		}
 		// 8. check if each cell should live or die
@@ -113,17 +113,17 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 	// It returns an array list of the 8 or less neighbors of the
 	// cell identified by x and y
 	public int getLivingNeighbors(int x, int y) {
+		liveNeighbors = 0;
 		for (int k = x - 1; k <= x + 1; k++) {
-			for (int f = y - 1; f <= y + 1; k++) {
-				if(k<0 || k>x+1) {} //setting bounds for neighbors
-				
-				
-				
-				
+			for (int f = y - 1; f <= y + 1; f++) {
+				if (k >= 0 && k < myshells[0].length && f >= 0 && f < myshells.length && !(k == x && f == y)) {
+					if (myshells[k][f].isAlive) {
+						liveNeighbors++;
+					} // setting bounds for neighbors
+				}
 			}
 		}
-
-		return 0;
+		return liveNeighbors;
 	}
 
 	@Override
@@ -145,13 +145,12 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		int i = e.getX()/cellSize;
-		int j = e.getY()/cellSize;
+		int i = e.getX() / cellSize;
+		int j = e.getY() / cellSize;
 		// 10. Use e.getX() and e.getY() to determine
-		if(myshells[i][j].isAlive) {
+		if (myshells[i][j].isAlive) {
 			myshells[i][j].isAlive = false;
-		}
-		else {
+		} else {
 			myshells[i][j].isAlive = true;
 		}
 		// which cell is clicked. Then toggle
