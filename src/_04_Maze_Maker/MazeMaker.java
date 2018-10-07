@@ -28,11 +28,14 @@ public class MazeMaker {
 	private static void selectNextPath(Cell currentCell) {
 		// A. mark cell as visited
 		currentCell.setBeenVisited(true);
-
 		// B. check for unvisited neighbors using the cell
-
 		// C. if has unvisited neighbors,
-
+		if (getUnvisitedNeighbors(currentCell).size() > 0) {
+			int rant = randGen.nextInt(getUnvisitedNeighbors(currentCell).size());
+			Cell rando = getUnvisitedNeighbors(currentCell).get(rant);
+			uncheckedCells.push(rando);
+			removeWalls();
+		}
 		// C1. select one at random.
 
 		// C2. push it to the stack
