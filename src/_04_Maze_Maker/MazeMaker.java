@@ -19,7 +19,7 @@ public class MazeMaker {
 		height = h;
 		maze = new Maze(width, height);
 		// 4. select a random cell to start
-		selectNextPath(maze.getCell(randGen.nextInt(w), randGen.nextInt(h)));
+		selectNextPath(maze.getCell(randGen.nextInt(maze.getWidth()), randGen.nextInt(maze.getHeight())));
 		// 5. call selectNextPath method with the randomly selected cell
 		return maze;
 	}
@@ -49,7 +49,6 @@ public class MazeMaker {
 		if (getUnvisitedNeighbors(currentCell).size() == 0) {
 			if (uncheckedCells.size() != 0) {
 				Cell now = uncheckedCells.pop();
-				now.setBeenVisited(true);
 				selectNextPath(now);
 			}
 		}
@@ -64,6 +63,7 @@ public class MazeMaker {
 	// This method will check if c1 and c2 are adjacent.
 	// If they are, the walls between them are removed.
 	private static void removeWalls(Cell c1, Cell c2) {
+	
 		if (c2.getX() > c1.getX()) {
 			c2.setWestWall(false);
 			c1.setEastWall(false);
